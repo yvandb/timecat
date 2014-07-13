@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'yvandb.timecat', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'com.google.guava:guava:15.0'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.3.1'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.1'
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-guava:2.3.1'
+	compile 'org.mybatis:mybatis:3.2.7'
+	compile 'io.dropwizard:dropwizard-core:0.7.1'
+	compile 'io.dropwizard:dropwizard-metrics:0.7.1'
+	compile 'io.dropwizard:dropwizard-jetty:0.7.1'
+	compile 'io.dropwizard:dropwizard-jdbi:0.7.1'
+	compile 'io.dropwizard:dropwizard-db:0.7.1'
+	compile 'io.dropwizard:dropwizard-migrations:0.7.1'
+	
+	compile 'com.sparkjava:spark-core:2.0.0'
+	compile 'com.sparkjava:spark-template-freemarker:2.0.0'
+
+    testCompile 'junit:junit:4.9'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}

@@ -1,0 +1,38 @@
+drop table if exists category_entries cascade;
+drop table if exists category_entry_actions cascade;
+drop table if exists categories cascade;
+drop table if exists entries cascade;
+drop sequence if exists shared_seq;
+
+create sequence shared_seq;
+
+create table entries (
+  id bigint not null default nextval('shared_seq') primary key,
+  at timestamp with time zone not null,
+  amount numeric(10,2) not null,
+  description text
+);
+
+create table categories (
+  id bigint not null default nextval('shared_seq') primary key,
+  category text not null unique
+);
+
+create table category_entry_actions (
+  id bigint default nextval('shared_seq') primary key,
+  category_id bigint not null references categories on delete cascade,
+  entry_ids bigint[], -- FK from array is not  supported in postgres it seems references entries on delete cascade,
+  at timestamp with time zone not null default now(),
+  deleted boolean not null default false,
+  search_context text
+);
+
+-- view on top of actions that associated an entry with at most a single category
+create table category_entries (
+  entry_id bigint primary key references entries on delete cascade,
+  category_id bigint not null references categories on delete cascade,
+  action_id bigint not null references category_entry_actions on delete cascade
+);
+
+
+-- TODO indices
